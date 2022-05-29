@@ -1,6 +1,9 @@
 package event
 
-import "fmt"
+import (
+	"fmt"
+	"math/rand"
+)
 
 type Repository interface {
 	FindAll() ([]Event, error)
@@ -21,8 +24,10 @@ func (r *repository) FindAll() ([]Event, error) {
 	events := make([]Event, EventsCount)
 	for i := int64(0); i < EventsCount; i++ {
 		events[i] = Event{
-			Id:   i + 1,
-			Name: fmt.Sprintf("Event #%d", i+1),
+			Id:    i + 1,
+			Title: fmt.Sprintf("Event #%d", i+1),
+			Lat:   rand.Float32() * 90,
+			Long:  rand.Float32()*360 - 180,
 		}
 	}
 	return events, nil
@@ -31,8 +36,10 @@ func (r *repository) FindAll() ([]Event, error) {
 func (r *repository) FindOne(id int64) (*Event, error) {
 	if id <= EventsCount {
 		return &Event{
-			Id:   id,
-			Name: fmt.Sprintf("Event #%d", id),
+			Id:    id,
+			Title: fmt.Sprintf("Event #%d", id),
+			Lat:   rand.Float32()*180 - 90,
+			Long:  rand.Float32()*360 - 180,
 		}, nil
 	} else {
 		return nil, nil
