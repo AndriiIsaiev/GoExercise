@@ -46,4 +46,14 @@ func AddEventRoutes(router *chi.Router, eventController *controllers.EventContro
 			eventController.FindOne(),
 		)
 	})
+	(*router).Route("/mapevents", func(apiRouter chi.Router) {
+		apiRouter.Get(
+			"/",
+			eventController.FindAll(),
+		)
+		apiRouter.Get(
+			"/{la1},{lo1},{la2},{lo2}",
+			eventController.FindMap(),
+		)
+	})
 }

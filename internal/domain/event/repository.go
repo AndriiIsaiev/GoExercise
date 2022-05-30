@@ -10,7 +10,7 @@ type Repository interface {
 	FindOne(id int64) (*Event, error)
 }
 
-const EventsCount int64 = 10
+const EventsCount int64 = 20
 
 type repository struct {
 	// Some internal data
@@ -34,7 +34,7 @@ func (r *repository) FindAll() ([]Event, error) {
 }
 
 func (r *repository) FindOne(id int64) (*Event, error) {
-	if id <= EventsCount {
+	if id <= EventsCount && id > 0 {
 		return &Event{
 			Id:    id,
 			Title: fmt.Sprintf("Event #%d", id),
