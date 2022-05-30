@@ -11,3 +11,7 @@
 ## Event (by ID)
 
 `http://localhost:8081/v1/events/{id}`
+
+## Event for Map
+
+`http://localhost:8081/v1/mapevents/{Lat1},{Long1},{Lat2},{Long2}`

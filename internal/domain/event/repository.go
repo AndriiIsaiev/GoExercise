@@ -13,34 +13,30 @@ type Repository interface {
 const EventsCount int64 = 20
 
 type repository struct {
-	// Some internal data
+	baseEvents []Event
 }
 
 func NewRepository() Repository {
-	return &repository{}
-}
-
-func (r *repository) FindAll() ([]Event, error) {
-	events := make([]Event, EventsCount)
+	var r repository
+	r.baseEvents = make([]Event, EventsCount)
 	for i := int64(0); i < EventsCount; i++ {
-		events[i] = Event{
+		r.baseEvents[i] = Event{
 			Id:    i + 1,
 			Title: fmt.Sprintf("Event #%d", i+1),
 			Lat:   rand.Float32() * 90,
 			Long:  rand.Float32()*360 - 180,
 		}
 	}
-	return events, nil
+	return &r
+}
+
+func (r *repository) FindAll() ([]Event, error) {
+	return r.baseEvents, nil
 }
 
 func (r *repository) FindOne(id int64) (*Event, error) {
 	if id <= EventsCount && id > 0 {
-		return &Event{
-			Id:    id,
-			Title: fmt.Sprintf("Event #%d", id),
-			Lat:   rand.Float32()*180 - 90,
-			Long:  rand.Float32()*360 - 180,
-		}, nil
+		return &r.baseEvents[id-1], nil
 	} else {
 		return nil, nil
 	}
