@@ -26,16 +26,8 @@ func (s *service) FindOne(id int64) (*Event, error) {
 
 func (s *service) FindMap(la1, lo1, la2, lo2 float32) ([]Event, error) {
 	allEvents, err := (*s.repo).FindAll()
-	var countForMap int
-	countForMap = 0
-	for i := int64(0); i < EventsCount; i++ {
-		if la1 < allEvents[i].Lat && allEvents[i].Lat < la2 &&
-			lo1 < allEvents[i].Long && allEvents[i].Long < lo2 {
-			countForMap++
-		}
-	}
-	mapEvents := make([]Event, countForMap)
-	countForMap = 0
+	mapEvents := make([]Event, EventsCount)
+	var countForMap int = 0
 	for i := int64(0); i < EventsCount; i++ {
 		if la1 < allEvents[i].Lat && allEvents[i].Lat < la2 &&
 			lo1 < allEvents[i].Long && allEvents[i].Long < lo2 {
@@ -43,5 +35,5 @@ func (s *service) FindMap(la1, lo1, la2, lo2 float32) ([]Event, error) {
 			countForMap++
 		}
 	}
-	return mapEvents, err
+	return mapEvents[0:countForMap], err
 }
